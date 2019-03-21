@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/rec">
+        <file alias="trash">icons8-trash-can-filled-50.png</file>
+        <file alias="search">icons8-search-more-24.png</file>
+        <file alias="save">icons8-save-filled-50.png</file>
+        <file alias="save as">icons8-save-as-filled-50.png</file>
+        <file alias="print">icons8-print-filled-50.png</file>
+        <file alias="new file">icons8-file-filled-50.png</file>
+        <file alias="faq">icons8-faq-filled-50.png</file>
+        <file alias="exit">icons8-exit-filled-50.png</file>
+        <file alias="send email">icons8-email-filled-50.png</file>
+        <file alias="open">icons8-open-document-filled-50.png</file>
+        <file alias="copy">icons8-copy-filled-50.png</file>
+        <file alias="paste">icons8-paste-filled-50.png</file>
+        <file alias="redo">icons8-forward-arrow-filled-50.png</file>
+        <file alias="undo">icons8-undo-filled-50.png</file>
+        <file alias="settings">icons8-settings-filled-50.png</file>
+        <file alias="cut">icons8-cut-filled-50.png</file>
+    </qresource>
+</RCC>
