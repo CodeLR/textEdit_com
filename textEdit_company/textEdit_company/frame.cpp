@@ -12,6 +12,9 @@ Frame::Frame(QWidget *parent)
 
     connect(this,SIGNAL(signalSaveFile(QString&)),
             this,SLOT(slotSaveFile(QString&)));
+
+    connect(this,SIGNAL(signalSaveFileDir(QString&)),
+            this,SLOT(slotSaveFileDir(QString&)));
 }
 
 void Frame::slotTextEdit()
@@ -41,4 +44,63 @@ void Frame::slotSaveFile(QString &strSaveDir)
         saveFile.close();
     }
 
+}
+
+void Frame::slotSaveFileDir(QString &strSave)
+{
+    QFile saveFile(strSave);
+    if(saveFile.open(QFile::WriteOnly|QFile::Text)){
+        QTextStream textStream(&saveFile);
+        QString text=textEdit->toPlainText();
+        textStream<<text;
+        saveFile.flush();
+        saveFile.close();
+    }
+
+
+}
+
+void Frame::slotSendEmail(QString& emailRecipient,
+                          QString& emailSend,
+                          QString& emailTheme,
+                          QString& pas,
+                          QString& user)
+{
+    qDebug()<<emailRecipient;
+    qDebug()<<emailSend;
+    qDebug()<<emailTheme;
+    SmtpClient smtp("smtp.gmail.com", 465, SmtpClient::SslConnection);
+    smtp.setUser(emailSend);
+    smtp.setPassword(pas);
+    MimeMessage message;
+    message.setSender(new EmailAddress(emailSend, emailSend));
+    message.addRecipient(new EmailAddress(emailRecipient,user));
+    message.setSubject(emailTheme);
+
+            // Now add some text to the email.
+            // First we create a MimeText object.
+
+            MimeText text;
+
+            text.setText(textEdit->toPlainText());
+
+            // Now add it to the mail
+
+            message.addPart(&text);
+
+            // Now we can send the mail
+
+            smtp.connectToHost();
+            smtp.login();
+            if (smtp.sendMail(message))
+            {
+                QMessageBox::information(this,"Window message","Сообщение отправлено");
+                qDebug()<<"Correct message";
+            }
+            else
+            {
+                QMessageBox::critical(this,"Window message","Ошибка! Введите данные верно");
+                qDebug()<<"Fail";
+            }
+            smtp.quit();
 }

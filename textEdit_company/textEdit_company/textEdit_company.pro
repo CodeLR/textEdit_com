@@ -5,6 +5,8 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += core gui network
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,12 +29,40 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     frame.cpp \
-    menubar.cpp
+    menubar.cpp \
+    dialog_sendmail_textedit.cpp \
+    emailaddress.cpp \
+    mimeattachment.cpp \
+    mimecontentformatter.cpp \
+    mimefile.cpp \
+    mimehtml.cpp \
+    mimeinlinefile.cpp \
+    mimemessage.cpp \
+    mimemultipart.cpp \
+    mimepart.cpp \
+    mimetext.cpp \
+    quotedprintable.cpp \
+    smtpclient.cpp
 
 HEADERS += \
         mainwindow.h \
-    frame.h \
-    menubar.h
+        frame.h \
+        menubar.h \
+        dialog_sendmail_textedit.h \
+    emailaddress.h \
+    mimeattachment.h \
+    mimecontentformatter.h \
+    mimefile.h \
+    mimehtml.h \
+    mimeinlinefile.h \
+    mimemessage.h \
+    mimemultipart.h \
+    mimepart.h \
+    mimetext.h \
+    quotedprintable.h \
+    smtpclient.h \
+    smtpexports.h \
+    SmtpMime
 
 RESOURCES += \
     resource.qrc

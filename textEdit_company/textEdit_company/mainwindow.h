@@ -6,6 +6,10 @@
 #include <QAction>
 #include <QVBoxLayout>
 #include <QFileDialog>
+#include <QLineEdit>
+#include <QPushButton>
+#include <string.h>
+#include "dialog_sendmail_textedit.h"
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -39,7 +43,7 @@ private:
 
     QFileDialog* file;
     QString save_File_Dir;
-
+    Dialog_sendMail_textEdit* dialogMail;
 public:
     MainWindow(QWidget *parent = 0);
     QToolBar* createToolBar();
@@ -48,6 +52,8 @@ signals:
     void signalNewFile();
     void signalOpenFileForTextEdit(QString&);
     void signalSaveFile(QString&);
+    void signalSaveFileDir(QString&);
+    void sendFrameEmailAddress(QString&);
 public slots:
     void slot_NewFile();
     void slot_OpenFile();
@@ -55,6 +61,9 @@ public slots:
     void slot_HowToSaveFile();
     void slot_SendEmail();
     void slot_Print();
+    void slot_Quit();
+    void slot_AboutQt();
 };
+
 
 #endif // MAINWINDOW_H

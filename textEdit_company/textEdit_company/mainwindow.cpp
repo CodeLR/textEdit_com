@@ -3,8 +3,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    setMinimumSize(290,330);
-    setMaximumSize(290,330);
+    setMinimumSize(330,330);
+    setMaximumSize(330,330);
     //File
     m_actionNewFile=new QAction(this);
     m_actionNewFile->setText(tr("New File"));
@@ -187,6 +187,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_actionHowToSave,SIGNAL(triggered()),this,SLOT(slot_HowToSaveFile()));
     connect(m_actionSendEmail,SIGNAL(triggered()),this,SLOT(slot_SendEmail()));
     connect(m_actionPrint,SIGNAL(triggered()),this,SLOT(slot_Print()));
+    connect(m_actionQuit,SIGNAL(triggered()),this,SLOT(slot_Quit()));
+    connect(m_actionAboutQt,SIGNAL(triggered()),this,SLOT(slot_AboutQt()));
 
 
 
@@ -195,6 +197,8 @@ MainWindow::MainWindow(QWidget *parent)
             m_frame,SIGNAL(signalOpenFileTextEdit(QString&)));
     connect(this,SIGNAL(signalSaveFile(QString&)),
             m_frame,SIGNAL(signalSaveFile(QString&)));
+    connect(this,SIGNAL(signalSaveFileDir(QString&)),
+            m_frame,SIGNAL(signalSaveFileDir(QString&)));
 }
 
 QToolBar* MainWindow::createToolBar()
@@ -207,29 +211,31 @@ QToolBar* MainWindow::createToolBar()
     m_menu->addSeparator();
     m_menu->addAction(m_actionOpenFile);
     m_menu->addAction(m_actionSaveFile);
+    m_menu->addAction(m_actionHowToSave);
     m_menu->addAction(m_actionPrint);
     m_menu->addAction(m_actionSendEmail);
     m_menu->addAction(m_actionQuit);
     return m_menu;
 }
 
+
 MainWindow::~MainWindow()
 {
 
 }
 
-void MainWindow::slot_NewFile()
+void MainWindow::slot_NewFile()// Слот очистки блокнота
 {
     emit signalNewFile();
 }
 
-void MainWindow::slot_OpenFile()
+void MainWindow::slot_OpenFile()// Слот открытия файла
 {
     QString fileOpen=QFileDialog::getOpenFileName(0,"Open File","","*.txt");
     emit signalOpenFileForTextEdit(fileOpen);
 }
 
-void MainWindow::slot_SaveFile()
+void MainWindow::slot_SaveFile() // Слот быстрого сохранения
 {
     if(!save_File_Dir.isEmpty()){
         emit signalSaveFile(save_File_Dir);
@@ -239,17 +245,36 @@ void MainWindow::slot_SaveFile()
     }
 }
 
-void MainWindow::slot_HowToSaveFile()
+void MainWindow::slot_HowToSaveFile()//слот сохранение как
+{
+    save_File_Dir=QFileDialog::getSaveFileName(this,tr("Save File"),"","Text files (*.txt);;XML files (*.xml)");
+    emit signalSaveFileDir(save_File_Dir);
+}
+
+void MainWindow::slot_SendEmail()// Слот отправки сообщения
+{
+    dialogMail=new Dialog_sendMail_textEdit(this);
+    dialogMail->setModal(true);
+    connect(dialogMail,SIGNAL(signalSaveEmail(QString&,QString&,QString&,QString&,QString&)),m_frame
+            ,SLOT(slotSendEmail(QString&,QString&,QString&,QString&,QString&)));
+    dialogMail->exec();
+
+
+}
+
+void MainWindow::slot_Print()// Слот вывода печати на принтер
 {
 
 }
 
-void MainWindow::slot_SendEmail()
+void MainWindow::slot_Quit()// слот закрытия приложения
 {
-
+    close();
 }
 
-void MainWindow::slot_Print()
+void MainWindow::slot_AboutQt()// слот инфо про qt
 {
-
+    QMessageBox::aboutQt(this,"TextEdit");
 }
+
+
